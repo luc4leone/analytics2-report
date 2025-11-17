@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produzione Sala Taglio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #ffffff;
+        color: #334155;
+        line-height: 1.5;
+        padding: 20px;
+        padding-left: 60px;
+      }
+
+      .email-container {
+        max-width: 420px;
+        margin: 0;
+        background-color: #ffffff;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 8px;
+      }
+
+      .period {
+        font-size: 14px;
+        color: #334155;
+        margin-bottom: 20px;
+      }
+
+      .summary-stats {
+        background-color: #f8fafc;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .stat-item {
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .stat-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .stat-label {
+        font-weight: 600;
+        display: inline-block;
+        min-width: 180px;
+      }
+
+      .description {
+        font-size: 14px;
+        color: #334155;
+        margin-bottom: 24px;
+        line-height: 1.6;
+      }
+
+      .chart-container {
+        margin-bottom: 24px;
+      }
+
+      .chart-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 12px;
+      }
+
+      .chart {
+        position: relative;
+        height: 180px;
+        border-left: 1px solid #64748b;
+        border-bottom: 1px solid #64748b;
+        padding-left: 8px;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      .chart-bars {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+        height: 100%;
+        padding: 0 4px;
+        min-height: 160px;
+      }
+
+      .bar-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        max-width: 60px;
+        height: 100%;
+        justify-content: flex-end;
+      }
+
+      .bar {
+        width: 100%;
+        border: 2px solid;
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        min-height: 30px;
+        flex-shrink: 0;
+      }
+
+      .bar-blue {
+        background-color: #f0f9ff;
+        border-color: #0284c7;
+      }
+
+      .bar-green {
+        background-color: #ecfdf5;
+        border-color: #10b981;
+      }
+
+      .bar-label {
+        font-size: 11px;
+        color: #334155;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .bar-value {
+        font-size: 11px;
+        color: #334155;
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      .bar-labels-row {
+        display: flex;
+        justify-content: space-around;
+        padding: 0 4px;
+        padding-left: 8px;
+        margin-top: 6px;
+      }
+
+      .bar-labels-row .bar-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        max-width: 60px;
+        height: auto;
+      }
+
+      .average-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border-top: 1px dashed #64748b;
+        z-index: 1;
+      }
+
+      .average-label {
+        position: absolute;
+        right: 4px;
+        font-size: 10px;
+        color: #64748b;
+        background-color: #ffffff;
+        padding: 0 4px;
+      }
+
+      .y-axis-labels {
+        position: absolute;
+        left: -40px;
+        top: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 10px;
+        color: #64748b;
+      }
+
+      .table-container {
+        margin-top: 24px;
+      }
+
+      .table-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 12px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th {
+        background-color: #e2e8f0;
+        color: #334155;
+        font-weight: 600;
+        padding: 10px 8px;
+        text-align: left;
+        border: 1px solid #cbd5e1;
+      }
+
+      td {
+        padding: 10px 8px;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f8fafc;
+      }
+
+      tr:last-child {
+        font-weight: 600;
+        background-color: #e2e8f0;
+      }
+
+      .dashboard-link {
+        text-align: left;
+        margin-top: 24px;
+        padding-top: 16px;
+      }
+
+      .dashboard-link a {
+        color: #0284c7;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .dashboard-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <h1>Produzione Sala Taglio</h1>
+      <div class="period">1 ottobre 2025 - 5 ottobre 2025</div>
+
+      <div class="summary-stats">
+        <div class="stat-item">
+          <span class="stat-label">Metri Tagliati Totali:</span>
+          <span>10.584m</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Media metri tagliati per giorno:</span>
+          <span>2.117m/giorno</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Efficienza media:</span>
+          <span>32%</span>
+        </div>
+      </div>
+
+      <div class="description">
+        Il report evidenzia una forte variabilità: il sabato registra il minimo
+        con solo 1.351m (25%), mentre giovedì ha raggiunto il picco di 2.569m
+        (36%). La produzione del weekend risulta nettamente inferiore.
+      </div>
+
+      <!-- Grafico Metri Tagliati -->
+      <div class="chart-container">
+        <div class="chart-title">METRI TAGLIATI</div>
+        <div class="chart">
+          <div class="y-axis-labels">
+            <span>3000m</span>
+            <span>2000m</span>
+            <span>1000m</span>
+            <span>0m</span>
+          </div>
+          <div class="average-line" style="bottom: 112px">
+            <span class="average-label">media</span>
+          </div>
+          <div class="chart-bars">
+            <div class="bar-wrapper">
+              <div class="bar-value">2.460m</div>
+              <div class="bar bar-blue" style="height: 73%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">2.569m</div>
+              <div class="bar bar-blue" style="height: 76%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">2.045m</div>
+              <div class="bar bar-blue" style="height: 61%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">1.351m</div>
+              <div class="bar bar-blue" style="height: 40%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">2.159m</div>
+              <div class="bar bar-blue" style="height: 64%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bar-labels-row">
+          <div class="bar-wrapper">
+            <div class="bar-label">1 WED</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">2 THU</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">3 FRI</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">4 SAT</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">6 MON</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grafico Efficienza Taglio -->
+      <div class="chart-container">
+        <div class="chart-title">EFFICIENZA TAGLIO</div>
+        <div class="chart">
+          <div class="y-axis-labels">
+            <span>50%</span>
+            <span>40%</span>
+            <span>30%</span>
+            <span>20%</span>
+            <span>10%</span>
+            <span>0%</span>
+          </div>
+          <div class="average-line" style="bottom: 102px">
+            <span class="average-label">media</span>
+          </div>
+          <div class="chart-bars">
+            <div class="bar-wrapper">
+              <div class="bar-value">32%</div>
+              <div class="bar bar-green" style="height: 64%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">36%</div>
+              <div class="bar bar-green" style="height: 72%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">36%</div>
+              <div class="bar bar-green" style="height: 72%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">25%</div>
+              <div class="bar bar-green" style="height: 50%"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">31%</div>
+              <div class="bar bar-green" style="height: 62%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bar-labels-row">
+          <div class="bar-wrapper">
+            <div class="bar-label">1 WED</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">2 THU</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">3 FRI</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">4 SAT</div>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar-label">6 MON</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabella Dati in Sintesi -->
+      <div class="table-container">
+        <div class="table-title">I DATI IN SINTESI</div>
+        <table>
+          <thead>
+            <tr>
+              <th>DATA</th>
+              <th>METRI TAGLIATI</th>
+              <th>EFFICIENZA TAGLIO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 WED</td>
+              <td>2460m</td>
+              <td>32%</td>
+            </tr>
+            <tr>
+              <td>2 THU</td>
+              <td>2569m</td>
+              <td>36%</td>
+            </tr>
+            <tr>
+              <td>3 FRI</td>
+              <td>2045m</td>
+              <td>36%</td>
+            </tr>
+            <tr>
+              <td>4 SAT</td>
+              <td>1351m</td>
+              <td>25%</td>
+            </tr>
+            <tr>
+              <td>5 MON</td>
+              <td>2159m</td>
+              <td>31%</td>
+            </tr>
+            <tr>
+              <td>MEDIA</td>
+              <td>2117m</td>
+              <td>32%</td>
+            </tr>
+            <tr>
+              <td>TOTALE</td>
+              <td>10584m</td>
+              <td>32%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="dashboard-link">
+        <a href="#">Per i dettagli apri la dashboard</a>
+      </div>
+    </div>
+  </body>
+</html>
