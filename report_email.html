@@ -38,7 +38,7 @@
         font-size: 24px;
         font-weight: 700;
         color: #334155;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
       }
 
       .period {
@@ -57,6 +57,9 @@
       .stat-item {
         margin-bottom: 8px;
         font-size: 14px;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
       }
 
       .stat-item:last-child {
@@ -65,8 +68,6 @@
 
       .stat-label {
         font-weight: 600;
-        display: inline-block;
-        min-width: 180px;
       }
 
       .description {
@@ -187,14 +188,16 @@
 
       .y-axis-labels {
         position: absolute;
-        left: -40px;
+        left: -50px;
         top: 0;
-        height: 100%;
+        bottom: 0;
+        width: 42px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         font-size: 10px;
         color: #64748b;
+        text-align: right;
       }
 
       .table-container {
@@ -263,12 +266,12 @@
 
       <div class="summary-stats">
         <div class="stat-item">
-          <span class="stat-label">Metri Tagliati Totali:</span>
+          <span class="stat-label">Metri tagliati totali:</span>
           <span>10.584m</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Media metri tagliati per giorno:</span>
-          <span>2.117m/giorno</span>
+          <span class="stat-label">Media metri tagliati:</span>
+          <span>2.117m</span>
         </div>
         <div class="stat-item">
           <span class="stat-label">Efficienza media:</span>
